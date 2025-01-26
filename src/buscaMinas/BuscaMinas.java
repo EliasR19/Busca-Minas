@@ -7,13 +7,15 @@ public class BuscaMinas {
 		//String[] minasPos = new String[10];
 		
 		GestorJuego gestor = new GestorJuego();
-		Mina mina1 = new Mina(0,8);
+		Mina mina1 = new Mina(8);
 		
 		gestor.getMinasPos();
 		gestor.showMinasPos();
+
+		
 		//tablero = setUp(tablero.length, tablero);
 		//ponerMinas(tablero, minasPos);
-		//jugarPos("AD", tablero, minasPos);
+		gestor.jugar("AA");
 		
 		
 		for(String[] b : GestorJuego.tablero) {
@@ -27,19 +29,6 @@ public class BuscaMinas {
 	}
 
 	
-	private static String[][] jugarPos(String userPos, String[][] tablero, String[] minasPos) {
-		char[] pos = {'0','A', 'B', 'C','D','E','F','G', 'H', 'I'};
-		int pos1 = foundPos(pos, userPos.charAt(0));
-		int pos2 = foundPos(pos, userPos.charAt(1));
-		
-		play(tablero, pos1,pos2, minasPos);
-		
-		System.out.println(pos1 + " " + pos2);
-		
-		
-		
-		return tablero;
-	}
 
 	
 	

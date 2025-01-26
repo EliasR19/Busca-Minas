@@ -1,20 +1,21 @@
 package buscaMinas;
 
 public class Mina {
-	private int pos1;
-	private int pos2;
+	private char pos1;
+	private char pos2;
+	char[] pos = {'A', 'B', 'C','D','E','F','G', 'H', 'I'}; 
 	
-	public Mina(int a, int b){
-		pos1 = randomNumEntre(a, b);
-		pos2 = randomNumEntre(a, b);
+	public Mina(int max){
+		pos1 = pos[randomNumEntre(max)];
+		pos2 = pos[randomNumEntre(max)];
 	}
 	
 	
-public int getPos1() {
+public char getPos1() {
 	return pos1;
 }
 
-public int getPos2() {
+public char getPos2() {
 	return pos2;
 }
 
@@ -23,11 +24,19 @@ public String getPosTotal() {
 }
 
 	
-int randomNumEntre(int a, int b) {
+int randomNumEntre(int max) {
 	int ranNum = (int)Math.round(Math.random()*10);
-	while(ranNum <= a || ranNum >= b) {
+	while(ranNum >= max) {
 		ranNum = (int)Math.round(Math.random()*10);
 	}
 	return ranNum;
 }
+
+//Test
+public void setPosTotal(char pos1, char pos2) {
+	this.pos1 = pos1;
+	this.pos2 = pos2;
+	}
+
+
 }

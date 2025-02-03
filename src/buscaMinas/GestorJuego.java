@@ -4,7 +4,7 @@ public class GestorJuego {
 	public static String[][] tablero = new String[8][8];
 	Mina[] minas = new Mina[5];
 	
-	char[] pos = {'0', 'A', 'B', 'C','D','E','F','G', 'H', 'I'}; 
+	char[] pos = {'0', 'A', 'B', 'C','D','E','F','G', 'H', 'I', 'J', 'k'}; 
 	
 	//constructor
 	public GestorJuego() {
@@ -12,7 +12,7 @@ public class GestorJuego {
 		minas = setUpMinas(minas);
 		//cambiarMinasMismaPos();
 		//MinaTets
-		minas[0].setPosTotal('A', 'C');
+
 	}
 	
 
@@ -22,12 +22,19 @@ public class GestorJuego {
 	public void jugar(String posUser) {
 		System.out.println("User play position: " + posUser);
 		
-		evaluarPierde(posUser);
+		evaluarJugada(posUser);
 		
 		
 	}
 	
-	//Evaluia si la posicion jugada es la misma posiicon de la mina
+	private void evaluarJugada(String posUser) {
+		//System.out.println("EvaluarJUgada");
+		tablero[buscarPosEnTablero(posUser)[0]][buscarPosEnTablero(posUser)[1]] = minasCountIn(posUser);
+		
+	}
+
+
+	/*//Evaluia si la posicion jugada es la misma posiicon de la mina
 	private void evaluarPierde(String posUser) {
 		for(int x=0; x < minas.length; x++) {
 			if(posUser.equals(minas[x].getPosTotal())) { // si la es muestra todas las minas del tablero y pierde.
@@ -37,6 +44,17 @@ public class GestorJuego {
 				
 			}
 		}
+	}*/
+	
+	public boolean perdio(String userPos) {
+		for(int x=0; x < minas.length; x++) {
+			if(userPos.equals(minas[x].getPosTotal())) { 
+				showAllMines();
+				System.out.println("YouLose!"); //End game
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	
@@ -74,7 +92,7 @@ public class GestorJuego {
 	
 	//Minas
 	private Mina minaFactory() {
-		Mina mina = new Mina(8);
+		Mina mina = new Mina(7); // CAMBIAR LA CANTIDAD DE LETRAS DE LAS MINAS
 		return mina;
 	}
 	
@@ -114,7 +132,7 @@ public class GestorJuego {
 	
 	public void showMinasPos() {
 		for(String minaPos : getMinasPos()) {
-			System.out.println(minaPos);
+			System.out.println(" mina- " + minaPos);
 		}
 	}
 
@@ -132,17 +150,54 @@ public class GestorJuego {
 	
 
 	//contar la cantidad de minas que hay al rededor de la posicion dada por el jugador.
-	int minasCountIn(String userPos) {
+	String minasCountIn(String userPos) {
 		int countMinas = 0;
+		for(String pos : listaPosicionesAlRededor(userPos)) {
+			for(Mina mina : minas) {
+				if(pos.equals(mina.getPosTotal())) {
+					countMinas++;
+				}
+			}
+		}
+		//listaPosicionesAlRededor(userPos);
+
+
 		
-		
-		
-		return countMinas;
+		return " " + String.valueOf(countMinas) + " ";
 	}
 	
 	
 	//Tablero
 	
+	private String[] listaPosicionesAlRededor(String userPos) {
+		String[] posiciones = new String[8];
+		int[] posUserNum = {buscarPosEnTablero(userPos)[0], buscarPosEnTablero(userPos)[1]};
+
+		//horizontales y verticales
+		posiciones[0] = String.valueOf(pos[posUserNum[0]-1]) + String.valueOf(pos[posUserNum[1]]);
+		posiciones[1] = String.valueOf(pos[posUserNum[0]]) + String.valueOf(pos[posUserNum[1]+1]);
+		posiciones[2] = String.valueOf(pos[posUserNum[0]+1]) + String.valueOf(pos[posUserNum[1]]);
+		posiciones[3] = String.valueOf(pos[posUserNum[0]]) + String.valueOf(pos[posUserNum[1]-1]);
+		//posiciones[0] = norte(userPos);
+		
+		//Diagonales
+		posiciones[4] = String.valueOf(pos[posUserNum[0]-1]) + String.valueOf(pos[posUserNum[1]+1]);
+		posiciones[5] = String.valueOf(pos[posUserNum[0]+1]) + String.valueOf(pos[posUserNum[1]+1]);
+		posiciones[6] = String.valueOf(pos[posUserNum[0]+1]) + String.valueOf(pos[posUserNum[1]-1]);
+		posiciones[7] = String.valueOf(pos[posUserNum[0]-1]) + String.valueOf(pos[posUserNum[1]-1]);
+		
+		
+		return posiciones;
+		
+	}
+
+/*
+	private String norte(String userPos) {
+		int[] posUserNum = {buscarPosEnTablero(userPos)[0], buscarPosEnTablero(userPos)[1]};
+		return String.valueOf(pos[posUserNum[0]-1]) + String.valueOf(pos[posUserNum[1]]);
+	}
+*/
+
 	//Crear Tablero
 	private static String[][] setUp() {
 		int size = tablero.length;

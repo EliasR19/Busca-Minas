@@ -1,4 +1,6 @@
 package buscaMinas;
+import java.util.Scanner;
+
 public class BuscaMinas {
 
 	public static void main(String[] args) {
@@ -7,17 +9,34 @@ public class BuscaMinas {
 		//String[] minasPos = new String[10];
 		
 		GestorJuego gestor = new GestorJuego();
-		Mina mina1 = new Mina(8);
+		//Mina mina1 = new Mina(6);
 		
 		gestor.getMinasPos();
-		gestor.showMinasPos();
+		//gestor.showMinasPos();
 
 		
 		//tablero = setUp(tablero.length, tablero);
 		//ponerMinas(tablero, minasPos);
-		gestor.jugar("AA");
+		showTablero();
+		Scanner scanner = new Scanner(System.in);
 		
+		System.out.println("Enter new position to play: ");
+		String userPos = scanner.nextLine().toUpperCase();
 		
+		while(gestor.perdio(userPos)) {
+			gestor.jugar(userPos);
+			showTablero();
+			userPos = scanner.nextLine().toUpperCase();
+		}
+		
+		showTablero();
+	}
+
+	
+
+	
+	
+	public static void showTablero() {
 		for(String[] b : GestorJuego.tablero) {
 			for(String n : b) {
 				System.out.print(n);
@@ -25,13 +44,13 @@ public class BuscaMinas {
 			System.out.println();
 		}
 		
-		//System.out.println(minasPos[0]);
+		
 	}
 
-	
 
-	
-	
+
+
+
 	private static String[][] play(String[][] tablero, int pos1, int pos2, String[] minasPos) {
 		
 		int count = 0;
